@@ -28,7 +28,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: docker/${{ matrix.flavor }}.Dockerfile
+          file: ${{ matrix.flavor }}.Dockerfile
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/chemical:${{ env.VERSION }}-${{ matrix.flavor }}
