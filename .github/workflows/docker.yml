@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        flavor: [ubuntu, alpine]   # Build both flavors
+        flavor: [ubuntu, alpine, alpine-glibc, slim]   # Build both flavors
     steps:
       - name: Checkout
         uses: actions/checkout@v4
