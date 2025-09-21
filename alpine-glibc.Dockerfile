@@ -1,4 +1,4 @@
-FROM frolvlad/alpine-glibc:3.20
+FROM frolvlad/alpine-glibc
 
 RUN apk add --no-cache wget unzip bash
 
