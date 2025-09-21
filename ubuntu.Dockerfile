@@ -8,5 +8,5 @@ RUN wget -q https://github.com/chemicallang/chemical/releases/download/v0.0.20/l
     && unzip linux-x86-64.zip \
     && rm linux-x86-64.zip
 
-ENV PATH="/opt/linux-x86-64:${PATH}"
+ENV PATH="/linux-x86-64:${PATH}"
 CMD ["chemical", "--version"]
