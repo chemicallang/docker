@@ -3,6 +3,7 @@ name: Build and Push Docker Images
 on:
   release:
     types: [published]   # Run when you publish a GitHub Release
+  workflow_dispatch:     # 👈 Allows manual run from GitHub interface
 
 permissions:
   contents: read
