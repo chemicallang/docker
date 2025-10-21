@@ -3,7 +3,7 @@ FROM frolvlad/alpine-glibc
 RUN apk add --no-cache wget unzip bash
 
 WORKDIR /opt
-RUN wget -q https://github.com/chemicallang/chemical/releases/download/v0.0.21/linux-x86-64-tcc.zip \
+RUN wget -q https://github.com/chemicallang/chemical/releases/download/v0.0.24/linux-x86-64-tcc.zip \
     && unzip linux-x86-64-tcc.zip \
     && rm linux-x86-64-tcc.zip
 
