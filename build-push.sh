@@ -12,7 +12,7 @@ set -euo pipefail
 # - Special case: "tcc-alpine-glibc" will be tagged without a suffix (i.e. chemicallang/chemical:latest and :$VERSION)
 
 REPO="chemicallang/chemical"
-VERSION="${VERSION:-v0.0.24}"
+VERSION="${VERSION:-v0.0.25}"
 
 # Known image base names (correspond to Dockerfile names like "ubuntu.Dockerfile")
 ALL_IMAGES=(
@@ -65,14 +65,8 @@ for name in "${IMAGES_TO_RUN[@]}"; do
     continue
   fi
 
-  # special-case: tcc-alpine-glibc -> no suffix
-  if [ "$name" = "tcc-alpine-glibc" ]; then
-    tag_latest="${REPO}:latest"
-    tag_version="${REPO}:${VERSION}"
-  else
-    tag_latest="${REPO}:latest-${name}"
-    tag_version="${REPO}:${VERSION}-${name}"
-  fi
+  tag_latest="${REPO}:latest-${name}"
+  tag_version="${REPO}:${VERSION}-${name}"
 
   echo
   echo "-------------------------------------------------"
@@ -82,6 +76,8 @@ for name in "${IMAGES_TO_RUN[@]}"; do
   echo "-------------------------------------------------"
 
   # Build once with both tags
+  # docker build -f "tcc-ubuntu.Dockerfile" -t chemicallang/chemical:latest-tcc-ubuntu -t chemicallang/chemical:v0.0.25-tcc-ubuntu .
+  # or: docker build -f "tcc-ubuntu.Dockerfile" -t chemicallang/chemical:latest -t chemicallang/chemical:v0.0.25 .
   docker build -f "$dockerfile" -t "$tag_latest" -t "$tag_version" .
 
   echo "Pushing $tag_latest"
