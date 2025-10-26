@@ -1,6 +1,6 @@
 FROM debian:bookworm-slim
 
-RUN apt-get update && apt-get install -y wget unzip build-essential \
+RUN apt-get update && apt-get install -y wget unzip build-essential libc6-dev \
  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /opt
