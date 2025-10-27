@@ -17,11 +17,13 @@ VERSION="${VERSION:-v0.0.25}"
 # Known image base names (correspond to Dockerfile names like "ubuntu.Dockerfile")
 ALL_IMAGES=(
   "tcc-alpine-glibc"
-  "ubuntu"
-  "alpine"
   "alpine-glibc"
+
   "tcc-ubuntu"
+  "ubuntu"  
+
   "tcc-alpine"
+  "alpine"
 )
 
 # Parse optional --select
