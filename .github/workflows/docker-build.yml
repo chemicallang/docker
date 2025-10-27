@@ -40,41 +40,66 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # Matrix of images to build (base name => build args)
-      - name: Build & push images
+      - name: Build & push ubuntu image
         uses: docker/build-push-action@v5
         with:
-          push: true
-          platforms: linux/amd64,linux/arm64
-          # Build definitions; we will build multiple tags in one invocation using multiple builds
-          # Build each variant (you can add/remove entries in the list)
-          build: |
-            # ubuntu
-            context=.
-            dockerfile=Dockerfile
-            tags=${{ env.REPO }}:latest-ubuntu,${{ env.REPO }}:${{ env.VERSION }}-ubuntu
-            build-args=BASE_IMAGE=ubuntu:24.04 PLATFORM=linux VARIANT= VERSION=${{ env.VERSION }}
+            context: .
+            file: Dockerfile
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: |
+                ${{ env.REPO }}:latest-ubuntu
+                ${{ env.REPO }}:${{ env.VERSION }}-ubuntu
+                build-args: |
+                BASE_IMAGE=ubuntu:24.04
+                PLATFORM=linux
+                VARIANT=
+                VERSION=${{ env.VERSION }}
 
-            # tcc-ubuntu
-            context=.
-            dockerfile=Dockerfile
-            tags=${{ env.REPO }}:latest-tcc-ubuntu,${{ env.REPO }}:${{ env.VERSION }}-tcc-ubuntu
-            build-args=BASE_IMAGE=ubuntu:24.04 PLATFORM=linux VARIANT=tcc VERSION=${{ env.VERSION }}
+      - name: Build & push tcc-ubuntu image
+        uses: docker/build-push-action@v5
+        with:
+            context: .
+            file: Dockerfile
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: |
+                ${{ env.REPO }}:latest-tcc-ubuntu
+                ${{ env.REPO }}:${{ env.VERSION }}-tcc-ubuntu
+                build-args: |
+                BASE_IMAGE=ubuntu:24.04
+                PLATFORM=linux
+                VARIANT=tcc
+                VERSION=${{ env.VERSION }}
 
-            # alpine
-            context=.
-            dockerfile=Dockerfile
-            tags=${{ env.REPO }}:latest-alpine,${{ env.REPO }}:${{ env.VERSION }}-alpine
-            build-args=BASE_IMAGE=alpine:3.20 PLATFORM=linux-alpine VARIANT= VERSION=${{ env.VERSION }}
+      - name: Build & push alpine image
+        uses: docker/build-push-action@v5
+        with:
+            context: .
+            file: Dockerfile
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: |
+                ${{ env.REPO }}:latest-alpine
+                ${{ env.REPO }}:${{ env.VERSION }}-alpine
+                build-args: |
+                BASE_IMAGE=alpine:3.20
+                PLATFORM=linux
+                VARIANT=
+                VERSION=${{ env.VERSION }}
 
-            # tcc-alpine
-            context=.
-            dockerfile=Dockerfile
-            tags=${{ env.REPO }}:latest-tcc-alpine,${{ env.REPO }}:${{ env.VERSION }}-tcc-alpine
-            build-args=BASE_IMAGE=alpine:3.20 PLATFORM=linux-alpine VARIANT=tcc VERSION=${{ env.VERSION }}
-
-            # alpine-glibc (example: using an Alpine image with glibc; change as you need)
-            context=.
-            dockerfile=Dockerfile
-            tags=${{ env.REPO }}:latest-alpine-glibc,${{ env.REPO }}:${{ env.VERSION }}-alpine-glibc
-            build-args=BASE_IMAGE=frolvlad/alpine-glibc:alpine-3.20 PLATFORM=linux-alpine VARIANT= VERSION=${{ env.VERSION }}
+      - name: Build & push tcc-alpine image
+        uses: docker/build-push-action@v5
+        with:
+            context: .
+            file: Dockerfile
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: |
+                ${{ env.REPO }}:latest-tcc-alpine
+                ${{ env.REPO }}:${{ env.VERSION }}-tcc-alpine
+                build-args: |
+                BASE_IMAGE=alpine:3.20
+                PLATFORM=linux
+                VARIANT=tcc
+                VERSION=${{ env.VERSION }}
