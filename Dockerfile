@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.4
 ARG BASE_IMAGE=ubuntu:24.04
-ARG PLATFORM=linux       # linux | linux-alpine | macos | windows
+ARG RELEASE_PLATFORM=linux # linux | linux-alpine | macos | windows    
 ARG VARIANT=             # empty or tcc or lsp
 ARG VERSION=v0.0.25
 ARG ARCH_OVERRIDE=       # optional override: amd64 | arm64 | x64
@@ -28,7 +28,7 @@ RUN chmod +x /usr/local/bin/install-chemical.sh
 ARG TARGETARCH
 # Expose ARGs to run
 ENV VERSION="${VERSION}" \
-    PLATFORM="${PLATFORM}" \
+    RELEASE_PLATFORM="${RELEASE_PLATFORM}" \
     VARIANT="${VARIANT}" \
     ARCH_OVERRIDE="${ARCH_OVERRIDE:-${TARGETARCH}}"
 
