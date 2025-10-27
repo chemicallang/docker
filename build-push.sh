@@ -20,10 +20,8 @@ ALL_IMAGES=(
   "ubuntu"
   "alpine"
   "alpine-glibc"
-  "slim"
   "tcc-ubuntu"
   "tcc-alpine"
-  "tcc-slim"
 )
 
 # Parse optional --select
