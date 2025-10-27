@@ -50,7 +50,7 @@ jobs:
             tags: |
                 ${{ env.REPO }}:latest-ubuntu
                 ${{ env.REPO }}:${{ env.VERSION }}-ubuntu
-                build-args: |
+            build-args: |
                 BASE_IMAGE=ubuntu:24.04
                 PLATFORM=linux
                 VARIANT=
@@ -66,7 +66,7 @@ jobs:
             tags: |
                 ${{ env.REPO }}:latest-tcc-ubuntu
                 ${{ env.REPO }}:${{ env.VERSION }}-tcc-ubuntu
-                build-args: |
+            build-args: |
                 BASE_IMAGE=ubuntu:24.04
                 PLATFORM=linux
                 VARIANT=tcc
@@ -82,7 +82,7 @@ jobs:
             tags: |
                 ${{ env.REPO }}:latest-alpine
                 ${{ env.REPO }}:${{ env.VERSION }}-alpine
-                build-args: |
+            build-args: |
                 BASE_IMAGE=alpine:3.20
                 PLATFORM=linux
                 VARIANT=
@@ -98,7 +98,7 @@ jobs:
             tags: |
                 ${{ env.REPO }}:latest-tcc-alpine
                 ${{ env.REPO }}:${{ env.VERSION }}-tcc-alpine
-                build-args: |
+            build-args: |
                 BASE_IMAGE=alpine:3.20
                 PLATFORM=linux
                 VARIANT=tcc
