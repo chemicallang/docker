@@ -11,7 +11,7 @@ set -euo pipefail
 #   GITHUB_REPO (default chemical)
 
 VERSION="${VERSION:-v0.0.25}"
-PLATFORM="${RELEASE_PLATFORM:-linux}"
+PLATFORM="${RELEASE_PLATFORM:-}"
 VARIANT="${VARIANT:-}"
 ARCH_OVERRIDE="${ARCH_OVERRIDE:-}"
 
