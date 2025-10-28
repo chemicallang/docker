@@ -103,3 +103,35 @@ jobs:
                 RELEASE_PLATFORM=linux-alpine
                 VARIANT=tcc
                 VERSION=${{ env.VERSION }}
+
+      - name: Build & push alpine glibc image
+        uses: docker/build-push-action@v5
+        with:
+            context: .
+            file: Dockerfile
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: |
+                ${{ env.REPO }}:latest-alpine-glibc
+                ${{ env.REPO }}:${{ env.VERSION }}-alpine-glibc
+            build-args: |
+                BASE_IMAGE=frolvlad/alpine-glibc
+                RELEASE_PLATFORM=linux
+                VARIANT=
+                VERSION=${{ env.VERSION }}
+
+      - name: Build & push tcc-alpine glibc image
+        uses: docker/build-push-action@v5
+        with:
+            context: .
+            file: Dockerfile
+            platforms: linux/amd64,linux/arm64
+            push: true
+            tags: |
+                ${{ env.REPO }}:latest-tcc-alpine-glibc
+                ${{ env.REPO }}:${{ env.VERSION }}-tcc-alpine-glibc
+            build-args: |
+                BASE_IMAGE=frolvlad/alpine-glibc
+                RELEASE_PLATFORM=linux
+                VARIANT=tcc
+                VERSION=${{ env.VERSION }}
