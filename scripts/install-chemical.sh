@@ -4,14 +4,14 @@ set -euo pipefail
 # Usage: ./install-chemical.sh
 # Env vars:
 #   VERSION (default v0.0.25)
-#   PLATFORM (e.g. linux, linux-alpine, macos, windows)  -- corresponds to release asset prefix
+#   RELEASE_PLATFORM (e.g. linux, linux-alpine, macos, windows)  -- corresponds to release asset prefix
 #   VARIANT (empty OR tcc OR lsp)
 #   ARCH_OVERRIDE (optional: amd64 | arm64 | x64 etc)
 #   GITHUB_OWNER (default chemicallang)
 #   GITHUB_REPO (default chemical)
 
 VERSION="${VERSION:-v0.0.25}"
-PLATFORM="${RELEASE_PLATFORM:-}"
+RELEASE_PLATFORM="${RELEASE_PLATFORM:-}"
 VARIANT="${VARIANT:-}"
 ARCH_OVERRIDE="${ARCH_OVERRIDE:-}"
 
@@ -41,23 +41,23 @@ ARCH_TOKEN="$(detect_arch)"
 candidates=()
 
 if [ -n "$VARIANT" ]; then
-  candidates+=("${PLATFORM}-${ARCH_TOKEN}-${VARIANT}.zip")
+  candidates+=("${RELEASE_PLATFORM}-${ARCH_TOKEN}-${VARIANT}.zip")
 fi
-candidates+=("${PLATFORM}-${ARCH_TOKEN}.zip")
+candidates+=("${RELEASE_PLATFORM}-${ARCH_TOKEN}.zip")
 
 # fallback to x64 if arch-specific not present
 if [ "$ARCH_TOKEN" != "x64" ]; then
   if [ -n "$VARIANT" ]; then
-    candidates+=("${PLATFORM}-x64-${VARIANT}.zip")
+    candidates+=("${RELEASE_PLATFORM}-x64-${VARIANT}.zip")
   fi
-  candidates+=("${PLATFORM}-x64.zip")
+  candidates+=("${RELEASE_PLATFORM}-x64.zip")
 fi
 
 BASE_URL="https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases/download/${VERSION}"
 
 echo "Installation settings:"
 echo "  VERSION=$VERSION"
-echo "  PLATFORM=$PLATFORM"
+echo "  PLATFORM=$RELEASE_PLATFORM"
 echo "  VARIANT=$VARIANT"
 echo "  ARCH_TOKEN=$ARCH_TOKEN"
 echo "  CANDIDATES: ${candidates[*]}"
