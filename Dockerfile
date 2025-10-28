@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1.4
 ARG BASE_IMAGE=ubuntu:24.04
+FROM ${BASE_IMAGE} AS builder
+
 ARG RELEASE_PLATFORM=linux # linux | linux-alpine | macos | windows    
 ARG VARIANT=             # empty or tcc or lsp
 ARG VERSION=v0.0.25
 ARG ARCH_OVERRIDE=       # optional override: amd64 | arm64 | x64
-
-FROM ${BASE_IMAGE} AS builder
 
 # install minimal tools (use $OS_PACKAGE_INSTALL for different distros)
 # We detect package manager by base image type via ARG (pass proper base image)
