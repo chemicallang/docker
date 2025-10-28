@@ -199,10 +199,45 @@ choose_install_dir() {
   echo "${HOME:-/tmp}/.chemical"
 }
 
+# -------------------------
+# Portable mktemp helpers
+# -------------------------
+portable_mktemp_dir() {
+  # Try common mktemp forms, fall back to a safe handmade dir
+  if tmp="$(mktemp -d 2>/dev/null)"; then
+    echo "$tmp"; return
+  fi
+  if tmp="$(mktemp -d -t chemical_unzip.XXXXXX 2>/dev/null)"; then
+    echo "$tmp"; return
+  fi
+  # fallback
+  tmp="${TMPDIR:-/tmp}/chemical_unzip.$$.$RANDOM"
+  mkdir -p "$tmp"
+  echo "$tmp"
+}
+
+portable_mktemp_file() {
+  # arg1 = prefix (optional)
+  prefix="${1:-chemical_}"
+  dir="${TMPDIR:-/tmp}"
+
+  # try common forms
+  if f="$(mktemp "${dir}/${prefix}XXXXXX" 2>/dev/null)"; then
+    echo "$f"; return
+  fi
+  if f="$(mktemp -t "${prefix}XXXXXX" 2>/dev/null)"; then
+    echo "$f"; return
+  fi
+
+  # make a file ourselves
+  f="${dir}/${prefix}$$.$RANDOM"
+  : > "$f"
+  echo "$f"
+}
+
 
 download_and_extract() {
-  TMP_EXTRACT_DIR="$(mktemp -d -t chemical_unzip.XXXXXX)"
-
+  TMP_EXTRACT_DIR="$(portable_mktemp_dir)"
   tmpdir="$(choose_install_dir)"
   mkdir -p "$tmpdir"
 
@@ -214,7 +249,11 @@ download_and_extract() {
     if [ "$DOWNLOADER" = "wget" ]; then
       if wget --spider -q "$url"; then
         echo "Found $name → downloading..."
-        TMP_ZIP_PATH="$(mktemp -p "${TMPDIR:-/tmp}" "chemical_XXXXXX.zip")"
+        TMP_ZIP_PATH="$(portable_mktemp_file chemical_)"
+        # ensure suffix .zip (some mktemp variants do not accept suffix templates)
+        TMP_ZIP_PATH="${TMP_ZIP_PATH}.zip"
+        # create file (touch) then download into it
+        : > "$TMP_ZIP_PATH"
         wget -q "$url" -O "$TMP_ZIP_PATH"
       else
         echo "Not found: $name"
@@ -224,7 +263,9 @@ download_and_extract() {
       # curl
       if curl -sfI "$url" >/dev/null 2>&1; then
         echo "Found $name → downloading..."
-        TMP_ZIP_PATH="$(mktemp -p "${TMPDIR:-/tmp}" "chemical_XXXXXX.zip")"
+        TMP_ZIP_PATH="$(portable_mktemp_file chemical_)"
+        TMP_ZIP_PATH="${TMP_ZIP_PATH}.zip"
+        : > "$TMP_ZIP_PATH"
         curl -sSL "$url" -o "$TMP_ZIP_PATH"
       else
         echo "Not found: $name"
@@ -232,7 +273,7 @@ download_and_extract() {
       fi
     fi
 
-    # extract
+    # Extraction logic unchanged (note: use portable TMP_EXTRACT_DIR)
     echo "Extracting $TMP_ZIP_PATH to $TMP_EXTRACT_DIR ..."
     case "$EXTRACTOR" in
       unzip)
@@ -245,15 +286,6 @@ download_and_extract() {
         (cd "$TMP_EXTRACT_DIR" && jar xf "$TMP_ZIP_PATH")
         ;;
       python3|python)
-        # use python zipfile to extract
-        "$EXTRACTOR" - <<PYCODE
-import sys, zipfile
-p = sys.argv[1]
-with zipfile.ZipFile(p) as z:
-    z.extractall(sys.argv[2])
-PYCODE
-        # Note: the above uses the interpreter but we need to pass args; simpler to call with -c:
-        # but bash heredoc above won't supply args; fallback to direct invocation:
         "$EXTRACTOR" -c "import sys,zipfile;zipfile.ZipFile('${TMP_ZIP_PATH}').extractall('${TMP_EXTRACT_DIR}')"
         ;;
       *)
