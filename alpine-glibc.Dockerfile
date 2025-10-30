@@ -31,6 +31,8 @@ RUN chmod +x /usr/local/bin/install-chemical.sh
 # build args forwarded to script; use TARGETARCH from buildkit if available
 RUN /usr/local/bin/install-chemical.sh
 
+ENV PATH="/opt/chemical:${PATH}"
+
 # default entrypoint: keep shell; users will override with their command
 ENTRYPOINT ["chemical"]
 CMD ["--help"]
