@@ -1,3 +1,4 @@
+@extern
 public func printf(format : *char, _ : any...) : int;
 
 public func main() : int {
