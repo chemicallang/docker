@@ -4,7 +4,7 @@ FROM ${BASE_IMAGE} AS builder
 
 ARG RELEASE_PLATFORM=linux # linux | linux-alpine | macos | windows    
 ARG VARIANT=             # empty or tcc or lsp
-ARG VERSION=v0.0.25
+ARG VERSION=v0.0.26
 ARG ARCH_OVERRIDE=       # optional override: amd64 | arm64 | x64
 ARG TARGETARCH
 
