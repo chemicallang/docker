@@ -10,7 +10,7 @@ set -euo pipefail
 #   GITHUB_OWNER (default chemicallang)
 #   GITHUB_REPO (default chemical)
 
-VERSION="${VERSION:-v0.0.26}"
+VERSION="${VERSION:-v0.0.27}"
 RELEASE_PLATFORM="${RELEASE_PLATFORM:-}"
 VARIANT="${VARIANT:-}"
 ARCH_OVERRIDE="${ARCH_OVERRIDE:-}"
