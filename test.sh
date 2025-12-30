@@ -9,7 +9,7 @@
 #   ./test-images.sh -e             # stop on first failure
 # Env:
 #   REPO (default chemicallang/chemical)
-#   VERSION (default v0.0.25)
+#   VERSION (default v0.0.28)
 
 set -o pipefail
 
@@ -23,7 +23,7 @@ done
 shift $((OPTIND -1))
 
 REPO="${REPO:-chemicallang/chemical}"
-VERSION="${VERSION:-v0.0.25}"
+VERSION="${VERSION:-v0.0.28}"
 
 DEFAULT_IMAGES=(
   "${REPO}:latest-ubuntu"

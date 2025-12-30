@@ -3,14 +3,14 @@ set -euo pipefail
 
 # Usage: ./install-chemical.sh
 # Env vars:
-#   VERSION (default v0.0.25)
+#   VERSION (default v0.0.28)
 #   RELEASE_PLATFORM (optional: e.g. linux, linux-alpine, macos, windows)
 #   VARIANT (empty OR tcc OR lsp)
 #   ARCH_OVERRIDE (optional: amd64 | arm64 | x64 etc)
 #   GITHUB_OWNER (default chemicallang)
 #   GITHUB_REPO (default chemical)
 
-VERSION="${VERSION:-v0.0.27}"
+VERSION="${VERSION:-v0.0.28}"
 RELEASE_PLATFORM="${RELEASE_PLATFORM:-}"
 VARIANT="${VARIANT:-}"
 ARCH_OVERRIDE="${ARCH_OVERRIDE:-}"
